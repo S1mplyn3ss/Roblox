@@ -1,4 +1,4 @@
--- made by 00Fazee / JuanchoLucas / #elrandom1311
+-- made by 00Fazee / JuanchoLucas / #elrandom1311 on discord
 
 local NotificationLib = {}
 NotificationLib.ActiveNotifications = {}
@@ -36,11 +36,18 @@ end
 
 function NotificationLib:MakeNotification(params)
     local name = params.Name or "Notification"
+    local nameText = (type(name) == "table" and name.Text) or name
+    local nameColor = (type(name) == "table" and name.Color) or Color3.fromRGB(255, 255, 255)
+    
     local content = params.Content or ""
+    local contentText = (type(content) == "table" and content.Text) or content
+    local contentColor = (type(content) == "table" and content.Color) or Color3.fromRGB(255, 255, 255)
+    
     local image = params.Image or "rbxassetid://4483345998"
     local duration = params.Time
     local soundId = params.SoundId
     local volume = params.Volume or 0.5
+    local outlineColor = params.OutlineColor or Color3.fromRGB(0, 0, 255)
 
     if soundId then
         task.spawn(function()
@@ -85,7 +92,7 @@ function NotificationLib:MakeNotification(params)
     uiCorner.Parent = notificationFrame
 
     local notificationStroke = Instance.new("UIStroke")
-    notificationStroke.Color = Color3.fromRGB(0, 0, 255)
+    notificationStroke.Color = outlineColor
     notificationStroke.Thickness = 2
     notificationStroke.Parent = notificationFrame
 
@@ -95,11 +102,11 @@ function NotificationLib:MakeNotification(params)
     titleLabel.BackgroundTransparency = 1
     titleLabel.TextScaled = true
     titleLabel.Font = Enum.Font.SourceSans
-    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.TextColor3 = nameColor
     titleLabel.RichText = true
     titleLabel.TextXAlignment = Enum.TextXAlignment.Left
     titleLabel.TextYAlignment = Enum.TextYAlignment.Center
-    titleLabel.Text = tostring(name)
+    titleLabel.Text = tostring(nameText)
     titleLabel.TextTransparency = 1
     titleLabel.Parent = notificationFrame
 
@@ -111,11 +118,11 @@ function NotificationLib:MakeNotification(params)
     messageLabel.TextWrapped = true
     messageLabel.ClipsDescendants = true
     messageLabel.Font = Enum.Font.SourceSans
-    messageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    messageLabel.TextColor3 = contentColor
     messageLabel.RichText = true
     messageLabel.TextXAlignment = Enum.TextXAlignment.Left
     messageLabel.TextYAlignment = Enum.TextYAlignment.Top
-    messageLabel.Text = tostring(content)
+    messageLabel.Text = tostring(contentText)
     messageLabel.TextTransparency = 1
     messageLabel.Parent = notificationFrame
 
